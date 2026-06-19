@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=Caveat:wght@700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-handwritten: 'Caveat', cursive;
+  --color-brand-pink: #ec4899;
+  --color-brand-pink-dark: #be185d;
+  --color-dark-bg: #050505;
+  --color-dark-card: #0c0c0e;
+  --color-dark-border: #1f1f23;
+}
+
+@layer base {
+  :root {
+    font-family: var(--font-sans);
+    background-color: var(--color-dark-bg);
+    color: #f3f4f6;
+    color-scheme: dark;
+  }
+  
+  body {
+    background-color: var(--color-dark-bg);
+    color: #f3f4f6;
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050505;
+    border-left: 1px solid #1f1f23;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f1f23;
+    border-radius: 5px;
+    border: 2px solid #050505;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ec4899;
+  }
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: rgba(12, 12, 14, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glow-pink {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.15);
+}
+
+.glow-pink-strong {
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.35);
+}
+
+.glow-text-pink {
+  text-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+}
+
+/* Dot grid background texture */
+.dot-bg {
+  background-image: radial-gradient(rgba(236, 72, 153, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Custom animation for glow pulse */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(236, 72, 153, 0.3);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+
+/* Custom scrollbar for the presets bar */
+.preset-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(236, 72, 153, 0.7) rgba(255, 255, 255, 0.08) !important;
+}
+
+.preset-scrollbar::-webkit-scrollbar {
+  height: 6px !important;
+  display: block !important;
+}
+
+.preset-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 9999px !important;
+  border: none !important;
+}
+
+.preset-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(236, 72, 153, 0.7) !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  transition: background-color 0.2s ease;
+}
+
+.preset-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.95) !important;
+}
+
