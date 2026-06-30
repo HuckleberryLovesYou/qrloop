@@ -16,6 +16,7 @@ import {
 import PresetForms from "./components/PresetForms";
 import type { PresetType } from "./components/PresetForms";
 import DesignManager from "./components/DesignManager";
+import ColorPicker from "./components/ColorPicker";
 import { generateSVGString, getQRMatrixSize } from "./utils/qrRenderer";
 import type { QRConfig, GradientConfig } from "./utils/qrRenderer";
 import { exportSVG, exportRaster } from "./utils/exporters";
@@ -396,7 +397,7 @@ export default function App() {
             </h2>
 
             {/* Shapes accordion */}
-            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden">
+            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "shapes" ? "overflow-visible z-20" : "overflow-hidden z-0"}`}>
               <button
                 id="accordion-shapes-toggle"
                 onClick={() => toggleAccordion("shapes")}
@@ -526,7 +527,7 @@ export default function App() {
             </div>
 
             {/* Colors Accordion */}
-            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden">
+            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "colors" ? "overflow-visible z-20" : "overflow-hidden z-0"}`}>
               <button
                 id="accordion-colors-toggle"
                 onClick={() => toggleAccordion("colors")}
@@ -544,7 +545,7 @@ export default function App() {
               <div
                 className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${activeAccordion === "colors" ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
               >
-                <div className="overflow-hidden min-h-0">
+                <div className={`${activeAccordion === "colors" ? "overflow-visible" : "overflow-hidden"} min-h-0`}>
                   <div className="p-5 border-t border-neutral-800 bg-neutral-950/40 space-y-6 text-left">
                     {/* Background, Module, Outer, Inner color selectors */}
                     {(
@@ -591,63 +592,31 @@ export default function App() {
                             </select>
 
                             {/* Color 1 */}
-                            <div className="flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 rounded-lg px-2.5 py-1">
-                              <input
-                                type="color"
-                                id={`${part}-color1-input`}
-                                value={grad.color1}
-                                onChange={(e) =>
-                                  updateColorConfig(part, {
-                                    color1: e.target.value,
-                                  })
-                                }
-                                className="w-5 h-5 rounded cursor-pointer border-0 bg-transparent"
-                              />
-                              <input
-                                type="text"
-                                id={`${part}-color1-text-input`}
-                                value={grad.color1}
-                                onChange={(e) =>
-                                  updateColorConfig(part, {
-                                    color1: e.target.value,
-                                  })
-                                }
-                                className="w-16 bg-transparent text-xs text-neutral-200 focus:outline-none uppercase font-mono"
-                                maxLength={7}
-                              />
-                            </div>
+                            <ColorPicker
+                              id={`${part}-color1`}
+                              value={grad.color1}
+                              onChange={(color) =>
+                                updateColorConfig(part, {
+                                  color1: color,
+                                })
+                              }
+                            />
 
                             {/* Color 2 (for Gradients) */}
                             {grad.type !== "solid" && (
                               <>
-                                <span className="text-xs text-neutral-500">
+                                <span className="text-xs text-neutral-500 font-medium">
                                   to
                                 </span>
-                                <div className="flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 rounded-lg px-2.5 py-1">
-                                  <input
-                                    type="color"
-                                    id={`${part}-color2-input`}
-                                    value={grad.color2}
-                                    onChange={(e) =>
-                                      updateColorConfig(part, {
-                                        color2: e.target.value,
-                                      })
-                                    }
-                                    className="w-5 h-5 rounded cursor-pointer border-0 bg-transparent"
-                                  />
-                                  <input
-                                    type="text"
-                                    id={`${part}-color2-text-input`}
-                                    value={grad.color2}
-                                    onChange={(e) =>
-                                      updateColorConfig(part, {
-                                        color2: e.target.value,
-                                      })
-                                    }
-                                    className="w-16 bg-transparent text-xs text-neutral-200 focus:outline-none uppercase font-mono"
-                                    maxLength={7}
-                                  />
-                                </div>
+                                <ColorPicker
+                                  id={`${part}-color2`}
+                                  value={grad.color2}
+                                  onChange={(color) =>
+                                    updateColorConfig(part, {
+                                      color2: color,
+                                    })
+                                  }
+                                />
                               </>
                             )}
 
@@ -685,7 +654,7 @@ export default function App() {
             </div>
 
             {/* Logo accordion */}
-            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden">
+            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "logo" ? "overflow-visible z-20" : "overflow-hidden z-0"}`}>
               <button
                 id="accordion-logo-toggle"
                 onClick={() => toggleAccordion("logo")}
