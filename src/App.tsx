@@ -15,7 +15,6 @@ import {
 import PresetForms from "./components/PresetForms";
 import type { PresetType } from "./components/PresetForms";
 import DesignManager from "./components/DesignManager";
-import OfflineSandbox from "./components/OfflineSandbox";
 import { generateSVGString, getQRMatrixSize } from "./utils/qrRenderer";
 import type { QRConfig, GradientConfig } from "./utils/qrRenderer";
 import { exportSVG, exportRaster } from "./utils/exporters";
@@ -966,20 +965,13 @@ export default function App() {
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto mt-12 space-y-8 pb-16 border-t border-neutral-900 pt-8">
-        <div className="flex flex-col gap-10">
-          <DesignManager
-            currentConfig={config}
-            onLoadConfig={handleLoadStyle}
-          />
-          <hr className="border-t border-neutral-800" />
-          <OfflineSandbox />
-        </div>
+        <DesignManager
+          currentConfig={config}
+          onLoadConfig={handleLoadStyle}
+        />
 
         <div className="text-center text-xs text-neutral-600 font-mono mt-8">
           <p>© {new Date().getFullYear()} QRLoop</p>
-          <p className="mt-1">
-            Everything runs locally in your browser. No data stored.
-          </p>
         </div>
       </footer>
     </div>
