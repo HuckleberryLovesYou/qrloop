@@ -201,6 +201,19 @@ export default function App() {
     "shapes" | "colors" | "logo" | null
   >("shapes");
 
+  const [isColorsOverflowVisible, setIsColorsOverflowVisible] = useState(false);
+
+  useEffect(() => {
+    if (activeAccordion === "colors") {
+      const timer = setTimeout(() => {
+        setIsColorsOverflowVisible(true);
+      }, 320);
+      return () => clearTimeout(timer);
+    } else {
+      setIsColorsOverflowVisible(false);
+    }
+  }, [activeAccordion]);
+
   // Export state
   const [exportSize, setExportSize] = useState<number>(1000);
   const [copiedText, setCopiedText] = useState(false);
@@ -397,7 +410,7 @@ export default function App() {
             </h2>
 
             {/* Shapes accordion */}
-            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "shapes" ? "overflow-visible z-20" : "overflow-hidden z-0"}`}>
+            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "shapes" ? "z-20" : "z-0"} overflow-hidden`}>
               <button
                 id="accordion-shapes-toggle"
                 onClick={() => toggleAccordion("shapes")}
@@ -527,7 +540,7 @@ export default function App() {
             </div>
 
             {/* Colors Accordion */}
-            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "colors" ? "overflow-visible z-20" : "overflow-hidden z-0"}`}>
+            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "colors" ? `${isColorsOverflowVisible ? "overflow-visible" : "overflow-hidden"} z-20` : "overflow-hidden z-0"}`}>
               <button
                 id="accordion-colors-toggle"
                 onClick={() => toggleAccordion("colors")}
@@ -545,7 +558,7 @@ export default function App() {
               <div
                 className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${activeAccordion === "colors" ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
               >
-                <div className={`${activeAccordion === "colors" ? "overflow-visible" : "overflow-hidden"} min-h-0`}>
+                <div className={`${isColorsOverflowVisible ? "overflow-visible" : "overflow-hidden"} min-h-0`}>
                   <div className="p-5 border-t border-neutral-800 bg-neutral-950/40 space-y-6 text-left">
                     {/* Background, Module, Outer, Inner color selectors */}
                     {(
@@ -654,7 +667,7 @@ export default function App() {
             </div>
 
             {/* Logo accordion */}
-            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "logo" ? "overflow-visible z-20" : "overflow-hidden z-0"}`}>
+            <div className={`glass-panel border-neutral-800 rounded-xl transition-all relative ${activeAccordion === "logo" ? "z-20" : "z-0"} overflow-hidden`}>
               <button
                 id="accordion-logo-toggle"
                 onClick={() => toggleAccordion("logo")}
