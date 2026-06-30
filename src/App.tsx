@@ -11,6 +11,7 @@ import {
   Copy,
   Check,
   ExternalLink,
+  X,
 } from "lucide-react";
 import PresetForms from "./components/PresetForms";
 import type { PresetType } from "./components/PresetForms";
@@ -202,6 +203,10 @@ export default function App() {
   // Export state
   const [exportSize, setExportSize] = useState<number>(1000);
   const [copiedText, setCopiedText] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [selectedExportFormat, setSelectedExportFormat] = useState<
+    "png" | "jpeg" | "webp" | "svg" | "gif"
+  >("png");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -846,86 +851,19 @@ export default function App() {
               </div>
             </div>
 
-            {/* Resolution selection */}
-            <div className="space-y-2 text-left">
-              <div className="flex justify-between items-center">
-                <label className="text-xs font-mono font-bold text-neutral-400 uppercase tracking-wider">
-                  Download Resolution
-                </label>
-                <span className="text-xs text-neutral-200 font-mono font-bold">
-                  {exportSize} x {exportSize} px
-                </span>
-              </div>
-              <input
-                type="range"
-                id="export-size-slider"
-                min="200"
-                max="2500"
-                step="100"
-                value={exportSize}
-                onChange={(e) => setExportSize(parseInt(e.target.value, 10))}
-                className="w-full accent-pink-500 cursor-pointer"
-              />
-            </div>
-
-            {/* Export buttons */}
-            <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  id="export-jpeg-btn"
-                  onClick={() => handleExport("jpeg")}
-                  className="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs py-2.5 px-4 rounded-lg flex items-center justify-center gap-1.5 border border-neutral-800 transition-colors"
-                >
-                  <Download className="w-3.5 h-3.5 text-pink-500" />
-                  Export JPEG
-                </button>
-                <button
-                  type="button"
-                  id="export-webp-btn"
-                  onClick={() => handleExport("webp")}
-                  className="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs py-2.5 px-4 rounded-lg flex items-center justify-center gap-1.5 border border-neutral-800 transition-colors"
-                >
-                  <Download className="w-3.5 h-3.5 text-pink-500" />
-                  Export WebP
-                </button>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  id="export-svg-btn"
-                  onClick={() => handleExport("svg")}
-                  className="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs py-2.5 px-4 rounded-lg flex items-center justify-center gap-1.5 border border-neutral-800 transition-colors"
-                >
-                  <Download className="w-3.5 h-3.5 text-pink-500" />
-                  Export SVG
-                </button>
-                <button
-                  type="button"
-                  id="export-gif-btn"
-                  onClick={() => handleExport("gif")}
-                  className="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs py-2.5 px-4 rounded-lg flex items-center justify-center gap-1.5 border border-neutral-800 transition-colors"
-                >
-                  <Download className="w-3.5 h-3.5 text-pink-500" />
-                  Export GIF
-                </button>
-              </div>
-            </div>
-
             {/* Export and action buttons */}
             <div className="flex flex-col gap-2">
               <button
                 type="button"
-                id="export-png-btn"
-                onClick={() => handleExport("png")}
-                className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold text-sm py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(236,72,153,0.2)] border border-pink-500/30"
+                id="open-export-modal-btn"
+                onClick={() => setIsExportModalOpen(true)}
+                className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold text-sm py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all border border-pink-500/30"
               >
                 <Download className="w-4 h-4" />
-                Export PNG
+                Export QR Code
               </button>
 
-              <div className="border-t border-neutral-900 pt-4 flex gap-2">
+              <div className="pt-1 flex gap-2">
                 <button
                   type="button"
                   id="copy-raw-text-btn"
@@ -934,7 +872,7 @@ export default function App() {
                 >
                   {copiedText ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <Check className="w-3.5 h-3.5 text-pink-600" />
                       Copied!
                     </>
                   ) : (
@@ -965,15 +903,136 @@ export default function App() {
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto mt-12 space-y-8 pb-16 border-t border-neutral-900 pt-8">
-        <DesignManager
-          currentConfig={config}
-          onLoadConfig={handleLoadStyle}
-        />
+        <DesignManager currentConfig={config} onLoadConfig={handleLoadStyle} />
 
         <div className="text-center text-xs text-neutral-600 font-mono mt-8">
           <p>© {new Date().getFullYear()} QRLoop</p>
         </div>
       </footer>
+
+      {/* Export Modal */}
+      {isExportModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 transition-opacity duration-300"
+            onClick={() => setIsExportModalOpen(false)}
+          />
+
+          {/* Modal Container */}
+          <div className="relative w-full max-w-md bg-neutral-950 border border-neutral-800 rounded-2xl p-6 shadow-2xl z-10 transition-transform duration-300 ease-out text-left flex flex-col gap-5">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <h3 className="font-display font-black text-xl text-white tracking-tight">
+                Export QR Code
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsExportModalOpen(false)}
+                className="text-neutral-400 hover:text-white p-1 rounded-lg hover:bg-neutral-900 transition-colors cursor-pointer"
+                aria-label="Close dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Description */}
+            <p className="text-neutral-400 text-xs">
+              Choose your preferred download format for your generated QR code.
+            </p>
+
+            {/* Format Options Grid */}
+            <div className="space-y-2">
+              <label className="text-xs font-mono font-bold text-neutral-400 uppercase tracking-wider">
+                Select Format
+              </label>
+              <div className="grid grid-cols-5 gap-2">
+                {[
+                  { id: "png", name: "PNG" },
+                  { id: "svg", name: "SVG" },
+                  { id: "jpeg", name: "JPEG" },
+                  { id: "webp", name: "WebP" },
+                  { id: "gif", name: "GIF" },
+                ].map((format) => (
+                  <button
+                    key={format.id}
+                    type="button"
+                    onClick={() => setSelectedExportFormat(format.id as any)}
+                    className={`px-3 py-2 rounded-lg text-xs font-semibold border text-center transition-all cursor-pointer ${
+                      selectedExportFormat === format.id
+                        ? "bg-pink-950/50 border-pink-500 text-pink-300"
+                        : "bg-neutral-900/40 border-neutral-800 text-neutral-400 hover:border-neutral-700"
+                    }`}
+                  >
+                    {format.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Conditional Resolution Slider (only for pixel-based formats) */}
+            {["png", "jpeg", "webp", "gif"].includes(selectedExportFormat) ? (
+              <div className="space-y-2 border-t border-neutral-900 pt-4">
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-mono font-bold text-neutral-400 uppercase tracking-wider">
+                    Resolution
+                  </label>
+                  <span className="text-xs text-neutral-200 font-mono font-bold">
+                    {exportSize} x {exportSize} px
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="200"
+                  max="2500"
+                  step="100"
+                  value={exportSize}
+                  onChange={(e) => setExportSize(parseInt(e.target.value, 10))}
+                  className="w-full accent-pink-500 cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] text-neutral-500 font-mono">
+                  <span>200px</span>
+                  <span>2500px</span>
+                </div>
+              </div>
+            ) : (
+              <div className="border-t border-neutral-900 pt-4 p-3 bg-neutral-900/30 rounded-xl border border-neutral-800 text-[11px] text-neutral-400 flex items-start gap-2">
+                <span>
+                  <strong>Vector Scale:</strong> <br /> SVG exports scale
+                  infinitely without loss of quality. Perfect for print design
+                  or editor import.
+                </span>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex gap-3 border-t border-neutral-900 pt-4 mt-1">
+              <button
+                type="button"
+                onClick={() => setIsExportModalOpen(false)}
+                className="flex-1 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 font-semibold text-xs py-2.5 rounded-xl transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  handleExport(selectedExportFormat);
+                  setIsExportModalOpen(false);
+                }}
+                className="flex-1 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-pink-500/30 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Download
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
