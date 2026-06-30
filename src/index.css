@@ -68,10 +68,14 @@
   text-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
 }
 
-/* Dot grid background texture */
+/* Dot grid background texture with irregular/scattered dots */
 .dot-bg {
-  background-image: radial-gradient(rgba(236, 72, 153, 0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: 
+    radial-gradient(rgba(236, 72, 153, 0.07) 1.2px, transparent 1.2px),
+    radial-gradient(rgba(236, 72, 153, 0.05) 1.8px, transparent 1.8px),
+    radial-gradient(rgba(236, 72, 153, 0.04) 2.2px, transparent 2.2px);
+  background-size: 47px 47px, 73px 73px, 109px 109px;
+  background-position: 0 0, 17px 31px, 53px 13px;
 }
 
 /* Custom animation for glow pulse */

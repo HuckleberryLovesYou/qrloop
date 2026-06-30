@@ -391,7 +391,7 @@ export default function App() {
             </h2>
 
             {/* Shapes accordion */}
-            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden glow-pink">
+            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden">
               <button
                 id="accordion-shapes-toggle"
                 onClick={() => toggleAccordion("shapes")}
@@ -521,7 +521,7 @@ export default function App() {
             </div>
 
             {/* Colors Accordion */}
-            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden glow-pink">
+            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden">
               <button
                 id="accordion-colors-toggle"
                 onClick={() => toggleAccordion("colors")}
@@ -680,7 +680,7 @@ export default function App() {
             </div>
 
             {/* Logo accordion */}
-            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden glow-pink">
+            <div className="glass-panel border-neutral-800 rounded-xl overflow-hidden">
               <button
                 id="accordion-logo-toggle"
                 onClick={() => toggleAccordion("logo")}
@@ -784,7 +784,7 @@ export default function App() {
         {/* Right Panel */}
         <section className="lg:col-span-5 lg:sticky lg:top-8 self-start flex flex-col gap-6">
           {/* Live preview */}
-          <div className="glass-panel border-neutral-800 rounded-2xl overflow-hidden p-6 glow-pink flex flex-col gap-5 text-center">
+          <div className="glass-panel border-neutral-800 rounded-2xl overflow-hidden p-6 flex flex-col gap-5 text-center">
             <div className="flex items-center justify-between">
               <h2 className="text-xs font-mono font-bold tracking-wider text-pink-400 uppercase text-left flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 animate-pulse" />

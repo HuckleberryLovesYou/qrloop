@@ -354,7 +354,7 @@ END:VCALENDAR`;
       </div>
 
       {/* Preset Form Fields */}
-      <div className="bg-neutral-900/20 border border-neutral-800/80 rounded-xl p-5 glow-pink">
+      <div className="bg-[#0c0c0e] border border-neutral-800/80 rounded-xl p-5">
         {activePreset === "url" && (
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-mono font-bold text-neutral-400 uppercase tracking-wider">
